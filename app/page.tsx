@@ -489,11 +489,13 @@ export default function LandingPage() {
           </div>
           
           <div className="flex gap-8 text-sm font-medium text-slate-400">
-            <a href="#" className="hover:text-indigo-300 transition-colors">{t.footer.privacy}</a>
-            <a href="#" className="hover:text-indigo-300 transition-colors">{t.footer.terms}</a>
-            <Link href="/support" className="hover:text-indigo-300 transition-colors flex items-center gap-1">
+          <Link href="/privacy" className="hover:text-indigo-300 transition-colors flex items-center gap-1">
+              {t.footer.privacy} <ArrowRight className="w-3 h-3" />
+          </Link>
+          <a href="#" className="hover:text-indigo-300 transition-colors">{t.footer.terms}</a>
+          <Link href="/support" className="hover:text-indigo-300 transition-colors flex items-center gap-1">
               {t.footer.support} <ArrowRight className="w-3 h-3" />
-            </Link>
+          </Link>
           </div>
         </div>
       </footer>
