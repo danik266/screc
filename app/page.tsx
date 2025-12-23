@@ -3,6 +3,7 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import { motion, Variants } from 'framer-motion';
 import { Video, Camera, Zap, Chrome, ArrowRight, Globe } from 'lucide-react';
+import { ReactLenis } from 'lenis/react';
 
 // --- СЛОВАРЬ ПЕРЕВОДОВ ---
 const translations = {
@@ -226,6 +227,7 @@ export default function LandingPage() {
   };
 
   return (
+    <ReactLenis root options={{ lerp: 0.1, duration: 1.5, smoothWheel: true }}>
     <div className="min-h-screen bg-slate-950 text-white selection:bg-indigo-500 selection:text-white font-sans relative overflow-x-hidden">
       
       <BackgroundAnimation />
@@ -500,6 +502,7 @@ export default function LandingPage() {
         </div>
       </footer>
     </div>
+    </ReactLenis>
   );
 }
 
