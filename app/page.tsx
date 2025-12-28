@@ -1,6 +1,6 @@
 "use client";
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, Variants } from 'framer-motion';
 import { Video, Camera, Zap, Chrome, ArrowRight, Globe } from 'lucide-react';
 import { ReactLenis } from 'lenis/react';
@@ -12,7 +12,7 @@ const translations = {
       docs: "Documentation",
     },
     hero: {
-      badge: "New: Version 2.0 is live",
+      badge: "New: Version 1.0 is live",
       titleLine1: "Work faster.",
       titleLine2: "Capture and record.",
       subtitle: "Instant screenshots and screen recording in one click. The ultimate tool for your productivity.",
@@ -91,7 +91,7 @@ const translations = {
       docs: "Документация",
     },
     hero: {
-      badge: "New: Версия 2.0 уже доступна",
+      badge: "New: Версия 1.0 уже доступна",
       titleLine1: "Работай быстрее.",
       titleLine2: "Снимай и записывай.",
       subtitle: "Мгновенные скриншоты и запись видео экрана в один клик. Идеальный инструмент для твоей продуктивности.",
@@ -215,13 +215,17 @@ const floatAnimation: Variants = {
 };
 
 export default function LandingPage() {
-  // Состояние для языка, по умолчанию английский ('en')
   const [lang, setLang] = useState<Language>('en');
-  
-  // Получаем нужный набор текстов
   const t = translations[lang];
 
-  // Функция переключения
+  // 1. Создаем реф для секции видео
+  const videoSectionRef = useRef<HTMLElement>(null);
+
+  // 2. Функция для плавной прокрутки к этому рефу
+  const scrollToVideo = () => {
+    videoSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  };
+
   const toggleLanguage = () => {
     setLang(prev => prev === 'en' ? 'ru' : 'en');
   };
@@ -295,13 +299,23 @@ export default function LandingPage() {
 
           {/* Buttons */}
           <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-5 justify-center items-center pt-8">
-            <button className="group relative px-8 py-4 bg-gradient-to-r from-indigo-600 to-violet-700 hover:from-indigo-500 hover:to-violet-600 rounded-2xl font-bold text-lg transition-all shadow-[0_10px_40px_-10px_rgba(79,70,229,0.5)] flex items-center gap-3 hover:scale-[1.02] active:scale-[0.98] overflow-hidden">
+            {/* Кнопка 1: Ссылка на магазин */}
+            <a 
+              href="https://chromewebstore.google.com/detail/screc/fompffkddlcifblbehokbkhpmicinjdg?hl=ru&utm_source=ext_sidebar"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative px-8 py-4 bg-gradient-to-r from-indigo-600 to-violet-700 hover:from-indigo-500 hover:to-violet-600 rounded-2xl font-bold text-lg transition-all shadow-[0_10px_40px_-10px_rgba(79,70,229,0.5)] flex items-center gap-3 hover:scale-[1.02] active:scale-[0.98] overflow-hidden cursor-pointer"
+            >
               <div className="absolute top-0 -left-[100%] w-1/2 h-full bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-[-25deg] group-hover:animate-shine" />
               <Chrome className="w-6 h-6 relative z-10" />
               <span className="relative z-10">{t.hero.btnInstall}</span>
-            </button>
+            </a>
 
-            <button className="px-8 py-4 bg-slate-800/40 hover:bg-slate-700/50 backdrop-blur-xl rounded-2xl font-semibold text-lg transition-all text-slate-200 border-2 border-slate-700/50 hover:border-indigo-500/50 shadow-lg hover:shadow-indigo-500/20">
+            {/* Кнопка 2: Скролл вниз */}
+            <button 
+              onClick={scrollToVideo}
+              className="px-8 py-4 bg-slate-800/40 hover:bg-slate-700/50 backdrop-blur-xl rounded-2xl font-semibold text-lg transition-all text-slate-200 border-2 border-slate-700/50 hover:border-indigo-500/50 shadow-lg hover:shadow-indigo-500/20"
+            >
               {t.hero.btnHow}
             </button>
           </motion.div>
@@ -336,7 +350,7 @@ export default function LandingPage() {
       </section>
 
       {/* Interface Mockup Area */}
-      <section className="max-w-6xl mx-auto px-6 pb-32 text-center relative z-10" style={{ perspective: "1200px" }}>
+      <section ref={videoSectionRef} className="max-w-6xl mx-auto px-6 pb-32 text-center relative z-10" style={{ perspective: "1200px" }}>
         <motion.div 
           initial={{ opacity: 0, scale: 0.8, rotateX: 20 }}
           whileInView={{ opacity: 1, scale: 1, rotateX: 0 }}
@@ -471,11 +485,16 @@ export default function LandingPage() {
             {t.cta.subtitle}
           </p>
           
-           <button className="group relative px-12 py-5 bg-white hover:bg-indigo-50 text-indigo-950 rounded-2xl font-extrabold text-xl transition-all shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 mx-auto flex items-center gap-3 overflow-hidden z-10">
+           <a 
+             href="https://chromewebstore.google.com/detail/screc/fompffkddlcifblbehokbkhpmicinjdg?hl=ru&utm_source=ext_sidebar"
+             target="_blank"
+             rel="noopener noreferrer"
+             className="group relative px-12 py-5 bg-white hover:bg-indigo-50 text-indigo-950 rounded-2xl font-extrabold text-xl transition-all shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 mx-auto flex items-center gap-3 overflow-hidden z-10 w-fit cursor-pointer"
+           >
               <div className="absolute top-0 -left-[100%] w-1/2 h-full bg-gradient-to-r from-transparent via-indigo-200/50 to-transparent skew-x-[-25deg] group-hover:animate-shine" />
               <Chrome className="w-6 h-6 relative z-10" />
               <span className="relative z-10">{t.cta.btn}</span>
-            </button>
+            </a>
             <p className="text-indigo-200/60 text-sm mt-6 relative z-10">{t.cta.note}</p>
         </motion.div>
       </section>
